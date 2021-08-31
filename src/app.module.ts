@@ -3,7 +3,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MorganInterceptor, MorganModule } from 'nest-morgan';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 
@@ -16,11 +15,11 @@ import { UserModule } from './modules/user/user.module';
       username: 'root',
       password: 'Pringle!135',
       database: 'toyproject',
-      entities: [__dirname+'/**/*.entity.{js,ts}'],
+      entities: [__dirname + '/**/*.entity.{js,ts}'],
       synchronize: true,
     }),
     UserModule,
-    MorganModule
+    MorganModule,
   ],
   controllers: [AppController],
   providers: [
