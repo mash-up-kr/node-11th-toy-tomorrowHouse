@@ -13,9 +13,9 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
-      transform: true
-    })
-  )
+      transform: true,
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('내일의 집 토이 프로젝트')
