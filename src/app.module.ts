@@ -10,8 +10,9 @@ import { AppService } from './app.service';
   providers: [
     AppService,
     {
-    provide: APP_INTERCEPTOR,
-    useClass: MorganInterceptor('combined'),
-  }],
+      provide: APP_INTERCEPTOR,
+      useClass: MorganInterceptor('combined'),
+    },
+  ],
 })
 export class AppModule {}
