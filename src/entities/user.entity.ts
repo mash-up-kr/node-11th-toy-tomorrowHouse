@@ -14,6 +14,6 @@ export class User{
     @Column()
     name: string;
 
-    @Column({default: "User"})
+    @Column({default: "User", length: 10})
     displayed_name: string;
 }
