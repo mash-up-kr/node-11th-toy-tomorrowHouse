@@ -5,6 +5,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
+import { ChannelModule } from './modules/channel/channel.module';
+import { User } from './entities/user.entity';
+import { Channel } from './entities/channel.entity';
 
 @Module({
   imports: [
@@ -15,11 +18,12 @@ import { UserModule } from './modules/user/user.module';
       username: 'root',
       password: '1234',
       database: 'toyproject',
-      entities: [__dirname + '/**/*.entity.{js,ts}'],
+      entities: [__dirname + '/**/*.entity.{js,ts}', User, Channel],
       synchronize: true,
     }),
     UserModule,
     MorganModule,
+    ChannelModule,
   ],
   controllers: [AppController],
   providers: [
