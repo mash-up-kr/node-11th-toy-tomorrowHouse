@@ -4,16 +4,26 @@ import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { Connection } from 'typeorm';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-
-    private connection: Connection,
   ) {}
+
+  async findUserById(id: number): Promise<User> {
+    return await this.userRepository.findOne({ id: id });
+  }
+
+  async findAllUser(): Promise<User[]> {
+    return await this.userRepository.find();
+  }
+
+  async deleteById(id: number): Promise<void> {
+    const user = await this.userRepository.findOne({ id: id });
+    await this.userRepository.delete(user);
+  }
 
   async register(userData: CreateUserDto): Promise<User> {
     const { email, password, name, displayed_name } = userData;
@@ -26,6 +36,15 @@ export class UserService {
       displayed_name,
     });
     user.password = hashedPassword;
+    return await this.userRepository.save(user);
+  }
+
+  async updateDisplayedNameById(
+    id: number,
+    displayed_name: string,
+  ): Promise<User> {
+    const user = await this.userRepository.findOne({ id: id });
+    user.displayed_name = displayed_name;
     return await this.userRepository.save(user);
   }
 }
