@@ -12,6 +12,19 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
+  async findUserByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({ email: email });
+  }
+
+  async findAllUser(): Promise<User[]> {
+    return await this.userRepository.find();
+  }
+
+  async deleteByEmail(email: string): Promise<void> {
+    const user = await this.userRepository.findOne({ email: email });
+    await this.userRepository.delete(user);
+  }
+
   async register(userData: CreateUserDto): Promise<User> {
     const { email, password, name, displayed_name } = userData;
     const saltOrRounds = 10;
@@ -26,9 +39,12 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
-  async updateDisplayedNameByEmail(email: string, displayed_name: string): Promise<User>{
-    const user= await this.userRepository.findOne({email: email});
-    user.displayed_name= displayed_name;
+  async updateDisplayedNameByEmail(
+    email: string,
+    displayed_name: string,
+  ): Promise<User> {
+    const user = await this.userRepository.findOne({ email: email });
+    user.displayed_name = displayed_name;
     return await this.userRepository.save(user);
   }
 }
