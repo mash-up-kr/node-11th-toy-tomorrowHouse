@@ -12,16 +12,16 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findUserByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne({ email: email });
+  async findUserById(id: number): Promise<User> {
+    return await this.userRepository.findOne({ id: id });
   }
 
   async findAllUser(): Promise<User[]> {
     return await this.userRepository.find();
   }
 
-  async deleteByEmail(email: string): Promise<void> {
-    const user = await this.userRepository.findOne({ email: email });
+  async deleteById(id: number): Promise<void> {
+    const user = await this.userRepository.findOne({ id: id });
     await this.userRepository.delete(user);
   }
 

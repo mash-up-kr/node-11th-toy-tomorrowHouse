@@ -25,24 +25,24 @@ export class UserController {
     return this.userService.findAllUser();
   }
 
-  @Get('/:email')
+  @Get('/:id')
   @ApiOperation({ summary: 'Find User API', description: 'Find a user' })
   @ApiCreatedResponse({ description: 'Find a user', type: User })
-  findUserByEmail(@Param('email') email: string) {
-    return this.userService.findUserByEmail(email);
+  findUserById(@Param('id') id: number) {
+    return this.userService.findUserById(id);
   }
 
-  @Delete('/:email')
+  @Delete('/:id')
   @ApiOperation({
     summary: 'Delete User',
-    description: 'Delete user by user email',
+    description: 'Delete user by user id',
   })
   @ApiCreatedResponse({
-    description: 'Delete user by user email',
+    description: 'Delete user by user id',
     type: 'void',
   })
-  delete(@Param('email') email: string) {
-    return this.userService.deleteByEmail(email);
+  delete(@Param('id') id: number) {
+    return this.userService.deleteById(id);
   }
 
   @Post()
