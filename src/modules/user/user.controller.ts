@@ -52,7 +52,7 @@ export class UserController {
     return this.userService.register(userData);
   }
 
-  @Patch()
+  @Patch('/:id')
   @ApiOperation({
     summary: 'Update User API',
     description: 'Update displayed name of user',
@@ -61,9 +61,12 @@ export class UserController {
     description: 'Update displayed name of user',
     type: User,
   })
-  updateDisplayedName(@Body() updateUserData: UpdateUserDto) {
-    return this.userService.updateDisplayedNameByEmail(
-      updateUserData.email,
+  updateDisplayedName(
+    @Param('id') id: number,
+    @Body() updateUserData: UpdateUserDto,
+  ) {
+    return this.userService.updateDisplayedNameById(
+      id,
       updateUserData.displayed_name,
     );
   }

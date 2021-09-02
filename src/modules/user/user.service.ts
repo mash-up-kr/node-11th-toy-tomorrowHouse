@@ -39,11 +39,11 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
-  async updateDisplayedNameByEmail(
-    email: string,
+  async updateDisplayedNameById(
+    id: number,
     displayed_name: string,
   ): Promise<User> {
-    const user = await this.userRepository.findOne({ email: email });
+    const user = await this.userRepository.findOne({ id: id });
     user.displayed_name = displayed_name;
     return await this.userRepository.save(user);
   }
