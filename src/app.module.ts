@@ -1,3 +1,6 @@
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MorganInterceptor, MorganModule } from 'nest-morgan';
 
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -6,21 +9,15 @@ import { AppService } from './app.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
-
+import { ChannelModule } from './modules/channel/channel.module';
+import typeormConfig from 'typeorm.config';
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '1234',
-      database: 'toyproject',
-      entities: [__dirname + '/**/*.entity.{js,ts}'],
-      synchronize: true,
-    }),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(typeormConfig),
     UserModule,
     MorganModule,
+    ChannelModule,
   ],
   controllers: [AppController],
   providers: [
