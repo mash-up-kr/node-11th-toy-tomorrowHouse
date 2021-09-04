@@ -10,6 +10,7 @@ import {
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Workspace } from 'src/entities/workspace.entity';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
+import { InviteUsersDto } from './dto/invite-users.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { WorkspaceService } from './workspace.service';
 
@@ -47,7 +48,25 @@ export class WorkspaceController {
   create(@Body() createWorkspaceData: CreateWorkspaceDto) {
     return this.workspaceService.createWorkspace(
       createWorkspaceData.name,
-      createWorkspaceData.userIDs,
+      createWorkspaceData.userID,
+    );
+  }
+
+  @Post('/:id')
+  @ApiOperation({
+    summary: 'Invite users to Workspace API',
+    description: 'Invite users to Workspace by user id',
+  })
+  @ApiCreatedResponse({
+    description: 'Invite users to Workspace by user id',
+  })
+  inviteUsersToWorkspace(
+    @Param('id') workspaceID: number,
+    @Body() inviteUsersData: InviteUsersDto,
+  ) {
+    return this.workspaceService.inviteUsersToWorkspace(
+      workspaceID,
+      inviteUsersData.userIDs,
     );
   }
 
