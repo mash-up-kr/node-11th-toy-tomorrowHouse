@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import { ChannelModule } from './modules/channel/channel.module';
 import typeormConfig from 'typeorm.config';
+import { WorkspaceModule } from './modules/workspace/workspace.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import typeormConfig from 'typeorm.config';
     UserModule,
     MorganModule,
     ChannelModule,
+    WorkspaceModule,
   ],
   controllers: [AppController],
   providers: [
