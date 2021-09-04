@@ -21,17 +21,28 @@ export class WorkspaceService {
     return await this.workspaceRepository.find();
   }
 
-  async createWorkspace(name: string, userIDs: number[]): Promise<Workspace> {
+  async createWorkspace(name: string, userID: number): Promise<Workspace> {
+    const user = await this.userRepository.findOne({ id: userID });
     const workspace = new Workspace();
     workspace.name = name;
     workspace.users = [];
-    for (let i = 0; i < userIDs.length; i++) {
-      const user = await this.userRepository.findOne(userIDs[i]);
-      if (user) {
-        workspace.users.push(user);
-      }
-    }
+    workspace.users.push(user);
     return await this.workspaceRepository.save(workspace);
+  }
+
+  async inviteUsersToWorkspace(
+    workspaceID: number,
+    userIDs: number[],
+  ): Promise<Workspace> {
+    const users = await this.userRepository.findByIds(userIDs);
+    const joinedTableLoadingResult = await this.workspaceRepository.find({
+      relations: ['users'],
+    });
+    const usersInWorkspace = joinedTableLoadingResult.find(
+      (element) => element.id == workspaceID,
+    );
+    usersInWorkspace.users = usersInWorkspace.users.concat(users);
+    return await this.workspaceRepository.save(usersInWorkspace);
   }
 
   async updateWorkspaceNameById(id: number, name: string): Promise<Workspace> {

@@ -1,10 +1,4 @@
-import {
-  ArrayMaxSize,
-  IsArray,
-  IsNotEmpty,
-  IsString,
-  Length,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
 
 export class CreateWorkspaceDto {
   @IsString()
@@ -12,10 +6,9 @@ export class CreateWorkspaceDto {
   @Length(2, 10)
   readonly name: string;
 
-  @IsArray()
+  @IsNumber()
   @IsNotEmpty()
-  @ArrayMaxSize(1000)
-  readonly userIDs: number[];
+  readonly userID: number;
 
   // @IsInt({each: true})
   // readonly channels: Channel[];
