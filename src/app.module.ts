@@ -11,6 +11,7 @@ import typeormConfig from 'typeorm.config';
 import { WorkspaceModule } from './modules/workspace/workspace.module';
 import { Module } from '@nestjs/common';
 
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -20,6 +21,7 @@ import { Module } from '@nestjs/common';
     ChannelModule,
     WorkspaceModule,
     ChatModule,
+
   ],
   controllers: [AppController],
   providers: [
