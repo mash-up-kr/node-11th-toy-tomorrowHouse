@@ -6,6 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Channel } from './channel.entity';
 
 import { User } from './user.entity';
 
@@ -23,6 +24,6 @@ export class Workspace {
   @JoinTable()
   users: User[];
 
-  // @OneToMany((type)=>Channel, (channel)=>channel.workspace, {cascade:true})
-  // channels: Channel[];
+  @OneToMany(() => Channel, (channel) => channel.workspace, { cascade: true })
+  channels: Channel[];
 }

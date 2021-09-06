@@ -41,4 +41,17 @@ export class ChannelController {
   ) {
     await this.channelService.updateChannel(channelId, channelData);
   }
+
+  @ApiOperation({ summary: '워크 스페이스 내 유저가 가입한 채널 조회' })
+  @Get('/joined')
+  async getJoinedChannel(
+    @Query('userId') userId: number,
+    @Query('workspaceId') workspaceId: number,
+  ) {
+    const channels = await this.channelService.getJoinedChannel(
+      userId,
+      workspaceId,
+    );
+    return { list: channels };
+  }
 }

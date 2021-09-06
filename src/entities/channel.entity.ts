@@ -6,11 +6,13 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Chat } from './chat.entity';
 import { User } from './user.entity';
+import { Workspace } from './workspace.entity';
 
 @Entity({ name: 'channel' })
 export class Channel {
@@ -55,7 +57,7 @@ export class Channel {
   @Column()
   description: string;
 
-  @ManyToMany(() => User, { cascade: true })
+  @ManyToMany(() => User, (user) => user.channels, { cascade: true })
   @JoinTable({
     name: 'channel_member',
     joinColumn: {
@@ -71,4 +73,7 @@ export class Channel {
 
   @OneToMany(() => Chat, (chat) => chat.channel, { cascade: true })
   chats: Chat[];
+
+  @ManyToOne(() => Workspace, (workspace) => workspace.channels)
+  workspace: Workspace;
 }
