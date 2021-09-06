@@ -42,9 +42,9 @@ export class Chat {
   @Column()
   userId: number;
 
-  @ManyToOne(() => Channel, (channel) => channel.chat)
+  @ManyToOne(() => Channel, (channel) => channel.chats)
   channel: Channel;
 
-  @ManyToOne(() => User, (user) => user.chat)
+  @ManyToOne(() => User, (user) => user.chats)
   user: User;
 }

@@ -19,5 +19,5 @@ export class User {
   displayed_name: string;
 
   @OneToMany(() => Chat, (chat) => chat.user)
-  chat: Chat[];
+  chats: Chat[];
 }
