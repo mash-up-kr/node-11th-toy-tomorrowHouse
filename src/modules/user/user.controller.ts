@@ -70,4 +70,13 @@ export class UserController {
       updateUserData.displayed_name,
     );
   }
+
+  @ApiOperation({ summary: '채널에 입장' })
+  @Post(':userId/join/channel/:channelId')
+  async joinChannel(
+    @Param('userId') userId: number,
+    @Param('channelId') channelId: number,
+  ) {
+    await this.userService.joinChannel(userId, channelId);
+  }
 }

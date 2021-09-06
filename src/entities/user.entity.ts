@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Chat } from './chat.entity';
 
 @Entity()
 export class User {
@@ -16,4 +17,7 @@ export class User {
 
   @Column({ default: 'User', length: 10 })
   displayed_name: string;
+
+  @OneToMany(() => Chat, (chat) => chat.user)
+  chat: Chat[];
 }
