@@ -69,6 +69,6 @@ export class Channel {
   })
   users: User[];
 
-  @OneToMany(() => Chat, (chat) => chat.channel)
+  @OneToMany(() => Chat, (chat) => chat.channel, { cascade: true })
   chat: Chat[];
 }

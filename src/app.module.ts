@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import { ChannelModule } from './modules/channel/channel.module';
+import { ChatModule } from './modules/chat/chat.module';
 import typeormConfig from 'typeorm.config';
 import { WorkspaceModule } from './modules/workspace/workspace.module';
 import { Module } from '@nestjs/common';
@@ -18,6 +19,7 @@ import { Module } from '@nestjs/common';
     MorganModule,
     ChannelModule,
     WorkspaceModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [

@@ -15,9 +15,7 @@ import { UpdateChannelDto } from './dto/update-channel.dto';
 @ApiTags('Channels API')
 @Controller('channel')
 export class ChannelController {
-  constructor(private readonly channelService: ChannelService) {
-    console.log(CreateChannelDto);
-  }
+  constructor(private readonly channelService: ChannelService) {}
 
   @ApiResponse({ description: '채널 생성 성공' })
   @ApiOperation({ summary: '채널 생성' })
