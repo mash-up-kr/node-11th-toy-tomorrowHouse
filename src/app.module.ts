@@ -9,6 +9,7 @@ import { UserModule } from './modules/user/user.module';
 import { ChannelModule } from './modules/channel/channel.module';
 import typeormConfig from 'typeorm.config';
 import { WorkspaceModule } from './modules/workspace/workspace.module';
+import { DmModule } from './modules/dm/dm.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { WorkspaceModule } from './modules/workspace/workspace.module';
     MorganModule,
     ChannelModule,
     WorkspaceModule,
+    DmModule,
   ],
   controllers: [AppController],
   providers: [
