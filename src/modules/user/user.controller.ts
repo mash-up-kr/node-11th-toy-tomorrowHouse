@@ -79,4 +79,13 @@ export class UserController {
   ) {
     await this.userService.joinChannel(userId, channelId);
   }
+
+  @ApiOperation({ summary: '채널에서 나가기' })
+  @Delete('/:userId/leave/channel/:channelId')
+  async leaveChannel(
+    @Param('userId') userId: number,
+    @Param('channelId') channelId: number,
+  ) {
+    await this.userService.leaveChannel(userId, channelId);
+  }
 }

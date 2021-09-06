@@ -60,4 +60,17 @@ export class UserService {
 
     await this.channelRepository.save(channel);
   }
+
+  async leaveChannel(userId: number, channelId: number) {
+    const channel = await this.channelRepository.findOne(channelId, {
+      relations: ['users'],
+    });
+    channel.users = channel.users.filter((user) => user.id !== userId);
+
+    if (channel.users.length) {
+      await this.channelRepository.save(channel);
+    } else {
+      await this.channelRepository.remove(channel);
+    }
+  }
 }
