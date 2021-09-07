@@ -14,7 +14,7 @@ import { InviteUsersDto } from './dto/invite-users.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { WorkspaceService } from './workspace.service';
 
-@Controller('workspace')
+@Controller('users/:userid/workspaces')
 @ApiTags('Workspace API')
 export class WorkspaceController {
   constructor(private readonly workspaceService: WorkspaceService) {}
@@ -45,10 +45,13 @@ export class WorkspaceController {
     description: 'Create Workspace',
   })
   @ApiCreatedResponse({ description: 'Create Workspace', type: Workspace })
-  create(@Body() createWorkspaceData: CreateWorkspaceDto) {
+  create(
+    @Body() createWorkspaceData: CreateWorkspaceDto,
+    @Param('userid') user_id: number,
+  ) {
     return this.workspaceService.createWorkspace(
       createWorkspaceData.name,
-      createWorkspaceData.userID,
+      user_id,
     );
   }
 

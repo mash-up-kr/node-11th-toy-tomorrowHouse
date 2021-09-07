@@ -13,7 +13,7 @@ import { DmService } from './dm.service';
 import { SendDmDto } from './dto/send-dm.dto';
 import { UpdateDmDto } from './dto/update-dm.dto';
 
-@Controller('dm')
+@Controller('workspaces/:workspaceid/dms')
 @ApiTags('DM API')
 export class DmController {
   constructor(private readonly dmService: DmService) {}
@@ -43,7 +43,7 @@ export class DmController {
     return this.dmService.getDms();
   }
 
-  @Post('/:id')
+  @Post()
   @ApiOperation({
     summary: 'Send DM',
     description: 'Send DM to another user',
@@ -52,7 +52,10 @@ export class DmController {
     description: 'Send DM to another user',
     type: Dm,
   })
-  sendDm(@Param('id') workspace_id: number, @Body() sendDmData: SendDmDto) {
+  sendDm(
+    @Param('workspaceid') workspace_id: number,
+    @Body() sendDmData: SendDmDto,
+  ) {
     return this.dmService.sendDm(
       workspace_id,
       sendDmData.user_from_id,

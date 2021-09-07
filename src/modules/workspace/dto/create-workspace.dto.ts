@@ -5,11 +5,4 @@ export class CreateWorkspaceDto {
   @IsNotEmpty()
   @Length(2, 10)
   readonly name: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  readonly userID: number;
-
-  // @IsInt({each: true})
-  // readonly channels: Channel[];
 }
