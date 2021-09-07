@@ -55,7 +55,7 @@ export class WorkspaceController {
     );
   }
 
-  @Post('/:id')
+  @Post('/:id/member')
   @ApiOperation({
     summary: 'Invite users to Workspace API',
     description: 'Invite users to Workspace by user id',
