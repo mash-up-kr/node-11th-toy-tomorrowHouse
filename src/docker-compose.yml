@@ -1,0 +1,15 @@
+version: '3.0'
+services: 
+  db: 
+    image: mysql:5.7
+    restart: always
+    container_name: dev-mysql
+    ports: 
+      - "3306:3306"
+    environment: 
+      - MYSQL_DATABASE=toyproject
+      - MYSQL_ROOT_PASSWORD=test
+      - TZ=Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
