@@ -61,7 +61,6 @@ export class DmController {
       sendDmData.user_from_id,
       sendDmData.user_to_id,
       sendDmData.content,
-      sendDmData.send_time,
     );
   }
 

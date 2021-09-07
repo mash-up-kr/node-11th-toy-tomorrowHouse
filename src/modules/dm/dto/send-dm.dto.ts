@@ -1,5 +1,4 @@
-import { Type } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class SendDmDto {
   @IsNumber()
@@ -13,9 +12,4 @@ export class SendDmDto {
   @IsString()
   @IsNotEmpty()
   content: string;
-
-  @Type(() => Date)
-  @IsDate()
-  @IsNotEmpty()
-  send_time: Date;
 }

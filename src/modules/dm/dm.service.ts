@@ -26,13 +26,11 @@ export class DmService {
     user_from_id: number,
     user_to_id: number,
     content: string,
-    send_time: Date,
   ): Promise<Dm> {
     const dm = this.dmRepository.create({
       user_from_id,
       user_to_id,
       content,
-      send_time,
     });
     const workspace = await this.workspaceRepository.findOne({
       id: workspace_id,

@@ -1,4 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Workspace } from './workspace.entity';
 
 @Entity()
@@ -15,8 +23,14 @@ export class Dm {
   @Column()
   content: string;
 
-  @Column()
-  send_time: Date;
+  @CreateDateColumn()
+  sent_time: Date;
+
+  @UpdateDateColumn()
+  updated_time: Date;
+
+  @DeleteDateColumn()
+  deleted_time?: Date;
 
   @ManyToOne(() => Workspace, (workspace) => workspace.dms)
   workspace: Workspace;
