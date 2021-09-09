@@ -1,5 +1,5 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 dotenv.config();
 const config: TypeOrmModuleOptions = {
@@ -10,7 +10,7 @@ const config: TypeOrmModuleOptions = {
   password: process.env.USER_PASSWORD,
   database: process.env.DATABASE,
   entities: [__dirname + '/**/*.entity.{js,ts}'],
-  synchronize: true,
+  synchronize: false,
 };
 
 export default config;
