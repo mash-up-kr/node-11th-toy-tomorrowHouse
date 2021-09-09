@@ -1,6 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Chat } from './chat.entity';
+import { User } from './user.entity';
+import { Workspace } from './workspace.entity';
 
 @Entity({ name: 'channel' })
 export class Channel {
@@ -25,7 +37,7 @@ export class Channel {
   @Column()
   name: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   createDatetime: string;
 
   @ApiProperty({
@@ -44,4 +56,24 @@ export class Channel {
   @IsOptional()
   @Column()
   description: string;
+
+  @ManyToMany(() => User, (user) => user.channels, { cascade: true })
+  @JoinTable({
+    name: 'channel_member',
+    joinColumn: {
+      name: 'channelId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+    },
+  })
+  users: User[];
+
+  @OneToMany(() => Chat, (chat) => chat.channel, { cascade: true })
+  chats: Chat[];
+
+  @ManyToOne(() => Workspace, (workspace) => workspace.channels)
+  workspace: Workspace;
 }

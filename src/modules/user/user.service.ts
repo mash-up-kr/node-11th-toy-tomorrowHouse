@@ -4,12 +4,15 @@ import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { Channel } from 'src/entities/channel.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Channel)
+    private channelRepository: Repository<Channel>,
   ) {}
 
   async findUserById(id: number): Promise<User> {
@@ -46,5 +49,28 @@ export class UserService {
     const user = await this.userRepository.findOne({ id: id });
     user.displayed_name = displayed_name;
     return await this.userRepository.save(user);
+  }
+
+  async joinChannel(userId: number, channelId: number) {
+    const channel = await this.channelRepository.findOne(channelId, {
+      relations: ['users'],
+    });
+    const user = await this.userRepository.findOne(userId);
+    channel.users.push(user);
+
+    await this.channelRepository.save(channel);
+  }
+
+  async leaveChannel(userId: number, channelId: number) {
+    const channel = await this.channelRepository.findOne(channelId, {
+      relations: ['users'],
+    });
+    channel.users = channel.users.filter((user) => user.id !== userId);
+
+    if (channel.users.length) {
+      await this.channelRepository.save(channel);
+    } else {
+      await this.channelRepository.remove(channel);
+    }
   }
 }
