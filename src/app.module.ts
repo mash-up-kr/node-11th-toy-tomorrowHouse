@@ -9,6 +9,7 @@ import { ChannelModule } from './modules/channel/channel.module';
 import { ChatModule } from './modules/chat/chat.module';
 import typeormConfig from 'typeorm.config';
 import { WorkspaceModule } from './modules/workspace/workspace.module';
+import { DmModule } from './modules/dm/dm.module';
 import { Module } from '@nestjs/common';
 
 
@@ -20,8 +21,8 @@ import { Module } from '@nestjs/common';
     MorganModule,
     ChannelModule,
     WorkspaceModule,
+    DmModule,
     ChatModule,
-
   ],
   controllers: [AppController],
   providers: [
