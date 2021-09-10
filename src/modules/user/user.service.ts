@@ -33,25 +33,23 @@ export class UserService {
   }
 
   async register(userData: CreateUserDto): Promise<User> {
-    const { email, password, name, displayed_name } = userData;
+    const { email, password, name } = userData;
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
     const user = await this.userRepository.create({
       email,
       password,
       name,
-      displayed_name,
     });
     user.password = hashedPassword;
     return await this.userRepository.save(user);
   }
 
-  async updateDisplayedNameById(
-    id: number,
-    displayed_name: string,
-  ): Promise<User> {
+  async updateUserPassword(id: number, password: string): Promise<User> {
     const user = await this.userRepository.findOne({ id: id });
-    user.displayed_name = displayed_name;
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
+    user.password = hashedPassword;
     return await this.userRepository.save(user);
   }
 
