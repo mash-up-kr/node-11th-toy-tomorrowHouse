@@ -57,10 +57,10 @@ export class UserController {
   @Patch('/:id')
   @ApiOperation({
     summary: 'Update User API',
-    description: 'Update displayed name of user',
+    description: 'Update user password',
   })
   @ApiCreatedResponse({
-    description: 'Update displayed name of user',
+    description: 'Success Update password',
     type: User,
   })
   updateDisplayedName(
