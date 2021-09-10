@@ -22,9 +22,6 @@ export class User {
   @Column()
   name: string;
 
-  @Column({ default: 'User', length: 10 })
-  displayed_name: string;
-
   @OneToMany(() => Chat, (chat) => chat.user)
   chats: Chat[];
 
