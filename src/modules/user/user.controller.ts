@@ -67,10 +67,7 @@ export class UserController {
     @Param('id') id: number,
     @Body() updateUserData: UpdateUserDto,
   ) {
-    return this.userService.updateDisplayedNameById(
-      id,
-      updateUserData.displayed_name,
-    );
+    return this.userService.updateUserPassword(id, updateUserData.password);
   }
 
   @UseGuards(JwtAuthGuard)
