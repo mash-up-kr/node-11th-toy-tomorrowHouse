@@ -6,12 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { User } from '../../entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
 @ApiTags('User API')
@@ -71,6 +73,7 @@ export class UserController {
     );
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: '채널에 입장' })
   @Post(':userId/join/channel/:channelId')
   async joinChannel(
@@ -80,6 +83,7 @@ export class UserController {
     await this.userService.joinChannel(userId, channelId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: '채널에서 나가기' })
   @Delete('/:userId/leave/channel/:channelId')
   async leaveChannel(

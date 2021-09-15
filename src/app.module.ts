@@ -11,7 +11,7 @@ import typeormConfig from 'typeorm.config';
 import { WorkspaceModule } from './modules/workspace/workspace.module';
 import { DmModule } from './modules/dm/dm.module';
 import { Module } from '@nestjs/common';
-
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +23,7 @@ import { Module } from '@nestjs/common';
     WorkspaceModule,
     DmModule,
     ChatModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
