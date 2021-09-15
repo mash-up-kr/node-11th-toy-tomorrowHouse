@@ -19,6 +19,10 @@ export class UserService {
     return await this.userRepository.findOne({ id: id });
   }
 
+  async findUserByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({ email: email });
+  }
+
   async findAllUser(): Promise<User[]> {
     return await this.userRepository.find();
   }
@@ -49,6 +53,10 @@ export class UserService {
     const user = await this.userRepository.findOne({ id: id });
     user.displayed_name = displayed_name;
     return await this.userRepository.save(user);
+  }
+
+  async isPasswordMatching(password: string, user: User): Promise<boolean> {
+    return bcrypt.compare(password, user.password);
   }
 
   async joinChannel(userId: number, channelId: number) {
