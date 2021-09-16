@@ -28,7 +28,7 @@ export class Workspace {
     cascade: true,
   })
   dms: Dm[];
-  
+
   @OneToMany(() => Channel, (channel) => channel.workspace, { cascade: true })
   channels: Channel[];
 }
