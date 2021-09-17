@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -16,7 +16,14 @@ export class UserService {
   ) {}
 
   async findUserById(id: number): Promise<User> {
-    return await this.userRepository.findOne({ id: id });
+    const user = await this.userRepository.findOne({
+      where: { id: id },
+      select: ['id', 'email', 'name', 'profileId'],
+    });
+    if (user) {
+      return user;
+    }
+    throw new BadRequestException('no user');
   }
 
   async findUserByEmail(email: string): Promise<User> {
@@ -24,11 +31,16 @@ export class UserService {
   }
 
   async findAllUser(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      select: ['id', 'email', 'name', 'profileId'],
+    });
   }
 
   async deleteById(id: number): Promise<void> {
-    const user = await this.userRepository.findOne({ id: id });
+    const user = await this.userRepository.findOne({ where: { id: id } });
+    if (!user) {
+      throw new BadRequestException('no user');
+    }
     await this.userRepository.delete(user);
   }
 
@@ -46,7 +58,10 @@ export class UserService {
   }
 
   async updateUserPassword(id: number, password: string): Promise<User> {
-    const user = await this.userRepository.findOne({ id: id });
+    const user = await this.userRepository.findOne({ where: { id: id } });
+    if (!user) {
+      throw new BadRequestException('no user');
+    }
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
     user.password = hashedPassword;
