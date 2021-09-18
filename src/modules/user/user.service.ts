@@ -18,7 +18,8 @@ export class UserService {
   async findUserById(id: number): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id: id },
-      select: ['id', 'email', 'name', 'profileId'],
+      select: ['id', 'email', 'name'],
+      relations: ['profile'],
     });
     if (user) {
       return user;
@@ -32,7 +33,8 @@ export class UserService {
 
   async findAllUser(): Promise<User[]> {
     return await this.userRepository.find({
-      select: ['id', 'email', 'name', 'profileId'],
+      select: ['id', 'email', 'name'],
+      relations: ['profile'],
     });
   }
 
