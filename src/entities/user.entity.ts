@@ -1,12 +1,15 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Channel } from './channel.entity';
 import { Chat } from './chat.entity';
+import { Profile } from './profile.entity';
 
 @Entity()
 export class User {
@@ -22,9 +25,16 @@ export class User {
   @Column()
   name: string;
 
+  @Column({ unique: true, default: null })
+  profileId: number;
+
   @OneToMany(() => Chat, (chat) => chat.user)
   chats: Chat[];
 
   @ManyToMany(() => Channel, (channel) => channel.users)
   channels: Channel[];
+
+  @OneToOne(() => Profile)
+  @JoinColumn([{ name: 'profileId', referencedColumnName: 'id' }])
+  profile: Profile;
 }
