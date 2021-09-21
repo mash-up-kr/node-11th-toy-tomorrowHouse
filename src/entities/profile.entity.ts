@@ -23,7 +23,7 @@ export class Profile {
   @ApiProperty({
     description: '이미지 url',
   })
-  @Column()
+  @Column({ default: null })
   @IsString()
   @IsOptional()
   imageUrl: string;
@@ -32,16 +32,16 @@ export class Profile {
     example: '개발자',
     description: '속한 워크스페이스에서의 역할',
   })
-  @Column()
   @IsString()
   @IsOptional()
+  @Column({ default: null })
   role: string;
 
   @ApiProperty({
     example: '010-0000-0000',
     description: '폰 번호',
   })
-  @Column()
+  @Column({ default: null })
   @IsString()
   @IsOptional()
   phoneNumber: string;
