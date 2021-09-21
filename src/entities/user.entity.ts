@@ -34,7 +34,9 @@ export class User {
   @ManyToMany(() => Channel, (channel) => channel.users)
   channels: Channel[];
 
-  @OneToOne(() => Profile)
+  @OneToOne(() => Profile, {
+    cascade: true,
+  })
   @JoinColumn([{ name: 'profileId', referencedColumnName: 'id' }])
   profile: Profile;
 }

@@ -10,7 +10,7 @@ import {
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { ApiTags, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Profile } from 'src/entities/profile.entity';
 
 @ApiTags('Profile API')
@@ -19,7 +19,6 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
   @ApiOperation({ summary: '프로필 만들기' })
-  @ApiParam({ name: 'userId' })
   @ApiResponse({ type: Profile, description: '프로필 만들었어용' })
   @Post('user/:userid/profile')
   createProfile(
@@ -30,6 +29,7 @@ export class ProfileController {
   }
 
   @ApiOperation({ summary: '프로필 정보 가져오기' })
+  @ApiResponse({ type: Profile, description: '프로필 가져옴' })
   @Get('profile/:profileid')
   findProfile(@Param('profileid') id: string) {
     return this.profileService.findOneById(+id);

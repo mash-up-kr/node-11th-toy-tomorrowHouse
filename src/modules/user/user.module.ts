@@ -4,9 +4,10 @@ import { Channel } from 'src/entities/channel.entity';
 import { User } from '../../entities/user.entity';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
+import { Profile } from '../../entities/profile.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Channel])],
+  imports: [TypeOrmModule.forFeature([User, Channel, Profile])],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Channel } from 'src/entities/channel.entity';
+import { Profile } from '../../entities/profile.entity';
 
 @Injectable()
 export class UserService {
@@ -13,6 +14,8 @@ export class UserService {
     private userRepository: Repository<User>,
     @InjectRepository(Channel)
     private channelRepository: Repository<Channel>,
+    @InjectRepository(Profile)
+    private profileRepository: Repository<Profile>,
   ) {}
 
   async findUserById(id: number): Promise<User> {
@@ -51,7 +54,12 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(userData.password, saltOrRounds);
     const user = await this.userRepository.create({ ...userData });
     user.password = hashedPassword;
-    return await this.userRepository.save(user);
+    const profile = new Profile();
+    user.profile = profile;
+    profile.displayName = user.name;
+    await this.userRepository.save(user);
+    await this.profileRepository.save(profile);
+    return user;
   }
 
   async updateUserPassword(id: number, password: string): Promise<User> {
