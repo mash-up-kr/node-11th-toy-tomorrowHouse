@@ -57,8 +57,10 @@ export class UserService {
     const profile = new Profile();
     user.profile = profile;
     profile.displayName = user.name;
-    await this.userRepository.save(user);
-    await this.profileRepository.save(profile);
+    await Promise.all([
+      this.userRepository.save(user),
+      this.profileRepository.save(profile),
+    ]);
     return user;
   }
 
