@@ -76,4 +76,12 @@ export class Channel {
 
   @ManyToOne(() => Workspace, (workspace) => workspace.channels)
   workspace: Workspace;
+
+  static of(params: Partial<Channel>): Channel {
+    const channel = new Channel();
+
+    Object.assign(channel, params);
+
+    return channel;
+  }
 }
