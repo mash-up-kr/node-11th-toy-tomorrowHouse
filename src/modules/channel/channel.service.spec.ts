@@ -6,6 +6,7 @@ import { UpdateChannelDto } from './dto/update-channel.dto';
 import { ChannelRepository } from './channel.repository';
 import { UserRepository } from '../user/use.repository';
 import { NotFoundException } from '@nestjs/common';
+import { CreateChannelDto } from './dto/create-channel.dto';
 
 // class MockUserRepository {
 //   save(channelData) {
@@ -33,6 +34,35 @@ describe('ChannelService', () => {
 
     service = module.get<ChannelService>(ChannelService);
     channelRepository = module.get<ChannelRepository>(ChannelRepository);
+  });
+
+  describe('채널 생성', () => {
+    it('채널을 성공적으로 생성한다', async () => {
+      const workspaceId = faker.datatype.number();
+      const name = faker.lorem.word();
+      const description = faker.lorem.sentence();
+
+      const channelData: CreateChannelDto = {
+        workspaceId,
+        name,
+        description,
+        isPrivate: false,
+      };
+
+      const savedChannel = Channel.of({
+        id: faker.datatype.number(),
+        ...channelData,
+      });
+
+      const channelRepositorySaveSpy = jest
+        .spyOn(channelRepository, 'save')
+        .mockResolvedValue(savedChannel);
+
+      const result = await service.createChannel(channelData);
+
+      expect(channelRepositorySaveSpy).toBeCalledWith(channelData);
+      expect(result).toEqual(savedChannel.id);
+    });
   });
 
   describe('채널 목록 조회', () => {
