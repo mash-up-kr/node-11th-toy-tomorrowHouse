@@ -35,6 +35,33 @@ describe('ChannelService', () => {
     channelRepository = module.get<ChannelRepository>(ChannelRepository);
   });
 
+  describe('채널 목록 조회', () => {
+    it('해당 Workspace내의 채널 목록을 불러온다.', async () => {
+      const workspaceId = faker.datatype.number() % 3;
+      const allChannelList = Array(10).map(() =>
+        Channel.of({
+          id: faker.datatype.number(),
+          workspaceId: faker.datatype.number() % 3,
+          name: faker.lorem.word(),
+          description: faker.lorem.sentence(),
+        }),
+      );
+
+      const workspaceChannelList = allChannelList.filter(
+        (value) => value.workspaceId === workspaceId,
+      );
+
+      const channelRepositoryFindSpy = jest
+        .spyOn(channelRepository, 'find')
+        .mockResolvedValue(workspaceChannelList);
+
+      const result = await service.getAllChannels(workspaceId);
+
+      expect(channelRepositoryFindSpy).toBeCalledWith({ workspaceId });
+      expect(result).toBe(workspaceChannelList);
+    });
+  });
+
   describe('채널 정보 수정', () => {
     it('존재하는 유저의 정보를 수정하려 할 때', async () => {
       const channelId = 2;
