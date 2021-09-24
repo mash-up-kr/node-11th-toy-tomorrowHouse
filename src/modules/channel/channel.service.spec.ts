@@ -7,6 +7,7 @@ import { ChannelRepository } from './channel.repository';
 import { UserRepository } from '../user/use.repository';
 import { NotFoundException } from '@nestjs/common';
 import { CreateChannelDto } from './dto/create-channel.dto';
+import { User } from 'src/entities/user.entity';
 
 // class MockUserRepository {
 //   save(channelData) {
@@ -78,7 +79,7 @@ describe('ChannelService', () => {
       );
 
       const workspaceChannelList = allChannelList.filter(
-        (value) => value.workspaceId === workspaceId,
+        (channel) => channel.workspaceId === workspaceId,
       );
 
       const channelRepositoryFindSpy = jest
@@ -148,6 +149,37 @@ describe('ChannelService', () => {
       }
 
       expect(channelRepositoryFindOneSpy).toBeCalledWith(channelId);
+    });
+  });
+
+  // https://stackoverflow.com/questions/56644690/how-to-mock-chained-function-calls-using-jest
+  describe('유저가 들어가 있는 채널 조회', () => {
+    it('워크스페이스 안에서 해당 유저가 들어가 있는 채널 목록만 가져온다.', () => {
+      const workspaceId = faker.datatype.number();
+      const userId = faker.datatype.number();
+      const user = User.of({
+        id: userId,
+        name: faker.name.findName(),
+        email: faker.internet.email(),
+      });
+
+      const allChannelList = Array(10).map(() =>
+        Channel.of({
+          id: faker.datatype.number(),
+          workspaceId,
+          name: faker.lorem.word(),
+          description: faker.lorem.sentence(),
+          users: faker.datatype.number() % 2 ? [user] : [],
+        }),
+      );
+
+      const userJoindChannelList = allChannelList.filter(
+        (channel) => channel.users.filter((user) => user.id === userId).length,
+      );
+
+      const result = service.getJoinedChannel(userId, workspaceId);
+
+      expect(result).toEqual(userJoindChannelList);
     });
   });
 });
