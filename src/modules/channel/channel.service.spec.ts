@@ -154,7 +154,7 @@ describe('ChannelService', () => {
 
   // https://stackoverflow.com/questions/56644690/how-to-mock-chained-function-calls-using-jest
   describe('유저가 들어가 있는 채널 조회', () => {
-    it('워크스페이스 안에서 해당 유저가 들어가 있는 채널 목록만 가져온다.', () => {
+    it('워크스페이스 안에서 해당 유저가 들어가 있는 채널 목록만 가져온다.', async () => {
       const workspaceId = faker.datatype.number();
       const userId = faker.datatype.number();
       const user = User.of({
@@ -177,8 +177,17 @@ describe('ChannelService', () => {
         (channel) => channel.users.filter((user) => user.id === userId).length,
       );
 
-      const result = service.getJoinedChannel(userId, workspaceId);
+      const createQueryBuilder: any = {
+        innerJoin: jest.fn().mockImplementation(() => createQueryBuilder),
+        where: jest.fn().mockImplementation(() => createQueryBuilder),
+        getMany: jest.fn().mockImplementation(() => userJoindChannelList),
+      };
 
+      jest
+        .spyOn(channelRepository, 'createQueryBuilder')
+        .mockImplementation(() => createQueryBuilder);
+
+      const result = await service.getJoinedChannel(userId, workspaceId);
       expect(result).toEqual(userJoindChannelList);
     });
   });
