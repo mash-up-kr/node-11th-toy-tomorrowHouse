@@ -1,18 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Channel } from 'src/entities/channel.entity';
-import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import { UserRepository } from '../user/use.repository';
+import { ChannelRepository } from './channel.repository';
 import { CreateChannelDto } from './dto/create-channel.dto';
 import { UpdateChannelDto } from './dto/update-channel.dto';
 
 @Injectable()
 export class ChannelService {
   constructor(
-    @InjectRepository(Channel)
-    private channelRepository: Repository<Channel>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private readonly channelRepository: ChannelRepository,
+    private readonly userRepository: UserRepository,
   ) {}
 
   async createChannel(channelData: CreateChannelDto): Promise<number> {
@@ -28,8 +25,15 @@ export class ChannelService {
   async updateChannel(
     channelId: number,
     updateData: UpdateChannelDto,
-  ): Promise<void> {
-    await this.channelRepository.update(channelId, updateData);
+  ): Promise<Channel> {
+    const channel = await this.channelRepository.findOne(channelId);
+
+    if (!channel) {
+      throw new NotFoundException('There is no channel');
+    }
+
+    const updatedChannel = { ...channel, ...updateData };
+    return await this.channelRepository.save(updatedChannel);
   }
 
   async getJoinedChannel(userId: number, workspaceId: number) {

@@ -39,4 +39,11 @@ export class User {
   })
   @JoinColumn([{ name: 'profileId', referencedColumnName: 'id' }])
   profile: Profile;
+  static of(params: Partial<User>): User {
+    const user = new User();
+
+    Object.assign(user, params);
+
+    return user;
+  }
 }
